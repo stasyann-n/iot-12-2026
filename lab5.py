@@ -1,0 +1,169 @@
+from enum import Enum
+
+
+class MovieType(Enum):
+    ACTION = "Бойовик"
+    COMEDY = "Комедія"
+    DRAMA = "Драма"
+    FANTASY = "Фентезі"
+
+
+class Movie:
+    def __init__(
+        self,
+        movie_id,
+        title,
+        ranking,
+        release_date,
+        character_number,
+        ticket_price,
+        comment,
+        movie_type,
+        show_date,
+        tickets_sold,
+    ):
+        self.id = movie_id
+        self.title = title
+        self.ranking = ranking
+        self.release_date = release_date
+        self.character_number = character_number
+        self.ticket_price = ticket_price
+        self.comment = comment
+        self.movie_type = movie_type
+        self.show_date = show_date
+        self.tickets_sold = tickets_sold
+
+    def get_ticket_price(self):
+        return self.ticket_price
+
+    def set_ticket_price(self, price):
+        if price >= 0:
+            self.ticket_price = price
+        else:
+            print("Ціна не може бути від'ємною")
+
+    def show_info(self):
+        print(f"{self.id}. {self.title} — {self.movie_type.value}")
+        print(f"Рейтинг: {self.ranking}, " f"випуск: {self.release_date}")
+        print(f"Персонажів: {self.character_number}")
+        print(f"Ціна: {self.ticket_price} грн, " f"коментар: {self.comment}")
+        print(f"Показ: {self.show_date}, " f"квитків: {self.tickets_sold}")
+        print()
+
+    def __del__(self):
+        print(f"Видалено фільм: {self.title}")
+
+
+class Cinema:
+    def __init__(self, name, location):
+        self.name = name
+        self.location = location
+        self.movies = []
+
+    def add_movie(self, movie):
+        self.movies.append(movie)
+
+    def get_movies(self):
+        return self.movies.copy()
+
+    def select_movies(self, min_ranking, max_price):
+        for movie in self.movies:
+            if (
+                movie.ranking >= min_ranking
+                and movie.ticket_price <= max_price
+            ):
+                movie.show_info()
+
+    def sort_movies(self):
+        self.movies.sort(key=get_release_date)
+
+    def show_info(self):
+        print(f"Кінотеатр: {self.name}, адреса: {self.location}")
+        for movie in self.movies:
+            movie.show_info()
+
+    def __del__(self):
+        print(f"Видалено кінотеатр: {self.name}")
+
+
+def get_release_date(movie):
+    return movie.release_date
+
+
+def calculate_profit(movies, day):
+    total = 0
+    for movie in movies:
+        if movie.show_date == day:
+            total += movie.ticket_price * movie.tickets_sold
+    return total
+
+
+def main():
+    movie1 = Movie(
+        1,
+        "Останній рейс",
+        8.5,
+        "2024-05-10",
+        12,
+        180,
+        "Динамічний сюжет",
+        MovieType.ACTION,
+        "2026-11-18",
+        50,
+    )
+    movie2 = Movie(
+        2,
+        "Веселі сусіди",
+        7.8,
+        "2022-09-15",
+        8,
+        150,
+        "Легка комедія",
+        MovieType.COMEDY,
+        "2026-11-18",
+        40,
+    )
+    movie3 = Movie(
+        3,
+        "Дорога додому",
+        9.0,
+        "2023-02-20",
+        6,
+        170,
+        "Зворушлива історія",
+        MovieType.DRAMA,
+        "2026-11-19",
+        30,
+    )
+
+    cinema = Cinema("Обрій", "Львів")
+    cinema.add_movie(movie1)
+    cinema.add_movie(movie2)
+    cinema.add_movie(movie3)
+
+    cinema2 = Cinema("Планета Кіно", "Львів")
+    cinema2.add_movie(movie1)
+    cinema2.add_movie(movie2)
+    cinema2.add_movie(movie3)
+
+    for movie in cinema2.movies:
+        movie.show_info()
+
+    movie1.set_ticket_price(190)
+    print("Нова ціна:", movie1.get_ticket_price())
+
+    print("\nФільми за датою випуску:")
+    cinema.sort_movies()
+    cinema.show_info()
+
+    print("Фільми з рейтингом від 8 і ціною до 200 грн:")
+    cinema.select_movies(8, 200)
+
+    profit = calculate_profit(cinema.get_movies(), "2026-11-18")
+    print(f"Виручка за 2026-11-18: {profit} грн")
+
+    print(cinema.name)
+
+
+if __name__ == "__main__":
+    main()
