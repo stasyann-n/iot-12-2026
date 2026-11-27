@@ -11,16 +11,16 @@ class MovieType(Enum):
 class Movie:
     def __init__(
         self,
-        movie_id,
-        title,
-        ranking,
-        release_date,
-        character_number,
-        ticket_price,
-        comment,
-        movie_type,
-        show_date,
-        tickets_sold,
+        movie_id: int,
+        title: str,
+        ranking: float,
+        release_date: str,
+        character_number: int,
+        ticket_price: int,
+        comment: str,
+        movie_type: MovieType,
+        show_date: str,
+        tickets_sold: int,
     ):
         self.id = movie_id
         self.title = title
