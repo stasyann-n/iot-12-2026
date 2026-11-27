@@ -2,10 +2,10 @@ from enum import Enum
 
 
 class MovieType(Enum):
-    ACTION = "Бойовик"
-    COMEDY = "Комедія"
-    DRAMA = "Драма"
-    FANTASY = "Фентезі"
+    ACTION = "Action"
+    COMEDY = "Comedy"
+    DRAMA = "Drama"
+    FANTASY = "Fantasy"
 
 
 class Movie:
