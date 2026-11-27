@@ -140,7 +140,7 @@ def calculate_profit(movies, day):
     return total
 
 
-def main():
+def create_demo_objects():
     movie1 = Movie(
         1,
         "Останній рейс",
@@ -188,6 +188,10 @@ def main():
     cinema2.add_movie(movie2)
     cinema2.add_movie(movie3)
 
+    return cinema, cinema2, movie1
+
+
+def demonstrate_cinema(cinema, cinema2, movie1):
     for movie in cinema2.movies:
         movie.show_info()
 
@@ -205,6 +209,11 @@ def main():
     print(f"Виручка за 2026-11-18: {profit} грн")
 
     print(cinema.name)
+
+
+def main():
+    cinema, cinema2, movie1 = create_demo_objects()
+    demonstrate_cinema(cinema, cinema2, movie1)
 
 
 if __name__ == "__main__":
