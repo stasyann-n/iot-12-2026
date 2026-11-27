@@ -97,6 +97,7 @@ class Movie:
 
 class Cinema:
     def __init__(self, name, location):
+        """Initialize a cinema with its name and location."""
         self.name = name
         self.location = location
         self.movies = []
