@@ -1,3 +1,4 @@
+from datetime import date
 from enum import Enum
 
 
@@ -22,6 +23,45 @@ class Movie:
         show_date: str,
         tickets_sold: int,
     ):
+        if type(movie_id) is not int:
+            raise TypeError("movie_id must be an integer")
+        if movie_id <= 0:
+            raise ValueError("movie_id must be positive")
+        if not isinstance(title, str) or not title.strip():
+            raise ValueError("title must be a non-empty string")
+        if isinstance(ranking, bool) or not isinstance(ranking, (int, float)):
+            raise TypeError("ranking must be a number")
+        if not 0 <= ranking <= 10:
+            raise ValueError("ranking must be between 0 and 10")
+        for value, name in (
+            (release_date, "release_date"),
+            (show_date, "show_date"),
+        ):
+            if not isinstance(value, str):
+                raise TypeError(f"{name} must be a string")
+            try:
+                date.fromisoformat(value)
+            except ValueError as error:
+                raise ValueError(f"{name} must be a valid ISO date") from error
+        if type(character_number) is not int:
+            raise TypeError("character_number must be an integer")
+        if character_number < 0:
+            raise ValueError("character_number cannot be negative")
+        if isinstance(ticket_price, bool) or not isinstance(
+            ticket_price, (int, float)
+        ):
+            raise TypeError("ticket_price must be a number")
+        if ticket_price < 0:
+            raise ValueError("ticket_price cannot be negative")
+        if not isinstance(comment, str):
+            raise TypeError("comment must be a string")
+        if not isinstance(movie_type, MovieType):
+            raise TypeError("movie_type must be a MovieType")
+        if type(tickets_sold) is not int:
+            raise TypeError("tickets_sold must be an integer")
+        if tickets_sold < 0:
+            raise ValueError("tickets_sold cannot be negative")
+
         self.id = movie_id
         self.title = title
         self.ranking = ranking
@@ -51,7 +91,8 @@ class Movie:
         print()
 
     def __del__(self):
-        print(f"Видалено фільм: {self.title}")
+        if hasattr(self, "title"):
+            print(f"Видалено фільм: {self.title}")
 
 
 class Cinema:
